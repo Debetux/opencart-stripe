@@ -11,6 +11,7 @@ TODO :
 - Integrate Stripe subscriptions
 - Saving Credits Cards for later user
 - Advanced settings
+- Clean all files
 
 ## Screenshots
 

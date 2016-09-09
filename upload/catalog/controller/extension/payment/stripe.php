@@ -90,7 +90,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 		);
 
 		if(isset($charge['id'])) {
-			$this->model_extension_payment_stripe->addOrder($order_info, $charge['id']);
+			$this->model_extension_payment_stripe->addOrder($order_info, $charge['id'], $this->config->get('stripe_environment'));
 			$message = 'Charge ID: '.$charge['id'].' Status:'. $charge['status'];
 			$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $this->config->get('stripe_order_status_id'), $message, false);
 			$json['processed'] = true;

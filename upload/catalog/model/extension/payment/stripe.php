@@ -19,9 +19,9 @@ class ModelExtensionPaymentStripe extends Model {
 		return $method_data;
 	}
 
-	public function addOrder($order_info, $stripe_charge_id) {
+	public function addOrder($order_info, $stripe_charge_id, $environment = 'test') {
 
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "stripe_order` SET `order_id` = '" . (int)$order_info['order_id'] . "', `stripe_order_id` = '" . $stripe_charge_id . "'");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "stripe_order` SET `order_id` = '" . (int)$order_info['order_id'] . "', `stripe_order_id` = '" . $stripe_charge_id . "', `environment` = '" . $environment . "'");
 
 		return $this->db->getLastId();
 	}

@@ -3,7 +3,7 @@
 <table class="table table-striped table-bordered">
   <tr>
     <td><?php echo 'Link'; ?></td>
-    <td><a class="btn btn-info btn-xs" href="https://dashboard.stripe.com/test/payments/<?php echo $charge['id']; ?>">Stripe charge</a></td>
+    <td><a class="btn btn-info btn-xs" href="https://dashboard.stripe.com/<?php echo $stripe_environment; ?>/payments/<?php echo $charge['id']; ?>">Stripe charge</a></td>
   </tr>
 
   <tr>

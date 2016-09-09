@@ -4,6 +4,7 @@ class ModelExtensionPaymentStripe extends Model {
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "stripe_order` (
 			`stripe_order_id` varchar(255) NOT NULL,
 			`order_id` int(11) NOT NULL DEFAULT '0',
+			`environment` varchar(5) NOT NULL DEFAULT 'test',
 			PRIMARY KEY (`stripe_order_id`)
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci");
 		$this->db->query("
@@ -14,6 +15,7 @@ class ModelExtensionPaymentStripe extends Model {
 			  `digits` VARCHAR(4) NOT NULL,
 			  `expiry` VARCHAR(5) NOT NULL,
 			  `type` VARCHAR(50) NOT NULL,
+			  `environment` varchar(5) NOT NULL DEFAULT 'test',
 			  PRIMARY KEY (`card_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 	}

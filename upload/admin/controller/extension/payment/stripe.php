@@ -207,7 +207,6 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 		if ($this->config->get('stripe_status')) {
 			$this->load->model('extension/payment/stripe');
-			$this->load->library('stripe');
 
 			$order_id = $this->request->get['order_id'];
 			$data['order_id'] = $order_id;
@@ -215,13 +214,8 @@ class ControllerExtensionPaymentStripe extends Controller {
 			$stripe_order = $this->model_extension_payment_stripe->getOrder($this->request->get['order_id']);
 
 			if ($stripe_order) {
-				if($this->config->get('stripe_environment') == 'live') {
-					$stripe_secret_key = $this->config->get('stripe_live_secret_key');
-				} else {
-					$stripe_secret_key = $this->config->get('stripe_test_secret_key');
-				}
-
-				\Stripe\Stripe::setApiKey($stripe_secret_key);
+				$this->initStripe();
+				$data['stripe_environment'] = $stripe_order['environment'];
 				$data['charge'] = \Stripe\Charge::retrieve($stripe_order['stripe_order_id']);
 				$data['transaction'] = \Stripe\BalanceTransaction::retrieve($data['charge']['balance_transaction']);
 				$this->load->language('extension/payment/stripe');
