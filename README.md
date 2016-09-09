@@ -12,6 +12,11 @@ TODO :
 - Saving Credits Cards for later user
 - Advanced settings
 
+## Screenshots
+
+![Checkout](/screenshots/checkout.png?raw=true "Checkout form")
+![Order details](/screenshots/order-details.png?raw=true "Order details")
+
 ## Installation
 
 Copy `upload/*` files to your Opencart installation.
