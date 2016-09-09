@@ -112,6 +112,21 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-currency">
+                  <span data-toggle="tooltip" data-original-title="<?php echo $help_currency; ?>">
+                    <?php echo $entry_currency; ?>                  
+                  </span>
+                </label>
+                <div class="col-sm-10">
+                  <select name="stripe_currency" id="input-currency" class="form-control">
+                    <?php foreach ($currencies as $currency): ?>
+                      <option value="<?php echo $currency; ?>" <?php if($stripe_currency == $currency) echo 'selected'; ?>><?php echo $currency; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+
 		    </div>
 		  </div>
         </form>

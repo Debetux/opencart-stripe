@@ -24,8 +24,6 @@ class ModelExtensionPaymentStripe extends Model {
 		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "stripe_order`");
 		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "stripe_card`");
 
-		$this->disableStripeExtension();
-
 		$this->log('Module uninstalled');
 	}
 

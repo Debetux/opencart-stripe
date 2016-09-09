@@ -74,6 +74,11 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 		$data['button_save']           = $this->language->get('button_save');
 		$data['button_cancel']         = $this->language->get('button_cancel');
+		$data['currencies']			   = ['usd', 'eur'];
+
+		if($this->initStripe() == true) {
+			$data['currencies'] = \Stripe\CountrySpec::retrieve("US")['supported_payment_currencies'];
+		}
 
 		$data['action'] = $this->url->link('extension/payment/stripe', 'token=' . $this->session->data['token'], true);
 
@@ -85,6 +90,14 @@ class ControllerExtensionPaymentStripe extends Controller {
 			$data['stripe_environment'] = $this->config->get('stripe_environment');
 		} else {
 			$data['stripe_environment'] = 'test';
+		}
+
+		if (isset($this->request->post['stripe_currency'])) {
+			$data['stripe_currency'] = $this->request->post['stripe_currency'];
+		} elseif ($this->config->has('stripe_currency')) {
+			$data['stripe_currency'] = $this->config->get('stripe_currency');
+		} else {
+			$data['stripe_currency'] = 'usd';
 		}
 
 
@@ -252,6 +265,12 @@ class ControllerExtensionPaymentStripe extends Controller {
 			$stripe_secret_key = $this->config->get('stripe_test_secret_key');
 		}
 
-		\Stripe\Stripe::setApiKey($stripe_secret_key);
+		if($stripe_secret_key != '' && $stripe_secret_key != null) {
+			\Stripe\Stripe::setApiKey($stripe_secret_key);
+			return true;
+		}
+
+		return false;
+
 	}
 }

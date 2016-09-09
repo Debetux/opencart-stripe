@@ -26,36 +26,6 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 		$data['button_confirm'] = $this->language->get('button_confirm');
 
-
-		$data['months'] = array();
-
-		for ($i = 1; $i <= 12; $i++) {
-			$data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)),
-				'value' => sprintf('%02d', $i)
-			);
-		}
-
-		$today = getdate();
-
-		$data['year_valid'] = array();
-
-		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {
-			$data['year_valid'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
-			);
-		}
-
-		$data['year_expire'] = array();
-
-		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-			$data['year_expire'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
-			);
-		}
-
 		return $this->load->view('extension/payment/stripe', $data);
 	}
 
@@ -82,7 +52,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 			array(
 				'card' => $this->request->post['card'],
 				'amount' => $order_info['total'] * 100,
-				'currency' => 'eur',
+				'currency' => $this->config->get('stripe_currency'),
 				'metadata' => array(
 					'orderId' => $this->session->data['order_id']
 				)
