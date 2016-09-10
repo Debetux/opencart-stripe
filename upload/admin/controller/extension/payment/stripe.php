@@ -68,6 +68,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 		$data['help_email_address']    = $this->language->get('help_email_address');
 		$data['help_password']         = $this->language->get('help_password');
 		$data['help_currency']         = $this->language->get('help_currency');
+		$data['help_test']             = $this->language->get('help_test');
 		$data['help_secret_key']       = $this->language->get('help_secret_key');
 		$data['help_order_status']     = $this->language->get('help_order_status');
 		$data['help_logging']          = $this->language->get('help_logging');
@@ -188,6 +189,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 	public function refund() {
 		$this->load->language('extension/payment/stripe');
 		$this->initStripe();
+
 		$json = array();
 		$json['error'] = false;
 
@@ -220,18 +222,17 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 		if ($this->config->get('stripe_status')) {
 			$this->load->model('extension/payment/stripe');
+			$this->load->language('extension/payment/stripe');
 
-			$order_id = $this->request->get['order_id'];
-			$data['order_id'] = $order_id;
+			$data['order_id'] = $this->request->get['order_id'];
 
 			$stripe_order = $this->model_extension_payment_stripe->getOrder($this->request->get['order_id']);
 
-			if ($stripe_order) {
-				$this->initStripe();
+			if ($stripe_order && $this->initStripe()) {
 				$data['stripe_environment'] = $stripe_order['environment'];
+
 				$data['charge'] = \Stripe\Charge::retrieve($stripe_order['stripe_order_id']);
 				$data['transaction'] = \Stripe\BalanceTransaction::retrieve($data['charge']['balance_transaction']);
-				$this->load->language('extension/payment/stripe');
 
 				$data['text_confirm_refund'] = $this->language->get('text_confirm_refund');
 				$data['text_refund_ok'] = $this->language->get('text_refund_ok');
@@ -239,6 +240,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 				$data['datetime_format'] = $this->language->get('datetime_format');
 
 				$data['token'] = $this->request->get['token'];
+
 				return $this->load->view('extension/payment/stripe_order', $data);
 			}
 		}

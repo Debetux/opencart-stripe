@@ -37,35 +37,39 @@
 		    <div class="tab-pane active" id="tab-settings">
 
               <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-stripe-test-secret-key"><span>Test Secret <?php echo $entry_api_key; ?></span></label>
+                  <label class="col-sm-2 control-label" for="input-stripe-test-secret-key">Test Secret <?php echo $entry_api_key; ?></label>
                   <div class="col-sm-10">
                   <input type="text" name="stripe_test_secret_key" value="<?php echo $stripe_test_secret_key; ?>" placeholder="<?php echo $entry_api_key; ?>" id="input-stripe-test-secret-key" class="form-control" />
                   </div>
               </div>
 
               <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-stripe-test-publishable-key"><span>Test Publishable <?php echo $entry_api_key; ?></span></label>
+                  <label class="col-sm-2 control-label" for="input-stripe-test-publishable-key">Test Publishable <?php echo $entry_api_key; ?></label>
                   <div class="col-sm-10">
                   <input type="text" name="stripe_test_publishable_key" value="<?php echo $stripe_test_publishable_key; ?>" placeholder="<?php echo $entry_api_key; ?>" id="input-stripe-test-publishable-key" class="form-control" />
                   </div>
               </div>
 
               <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-stripe-live-secret-key"><span>Live Secret <?php echo $entry_api_key; ?></span></label>
+                  <label class="col-sm-2 control-label" for="input-stripe-live-secret-key">Live Secret <?php echo $entry_api_key; ?></label>
                   <div class="col-sm-10">
                   <input type="text" name="stripe_live_secret_key" value="<?php echo $stripe_live_secret_key; ?>" placeholder="<?php echo $entry_api_key; ?>" id="input-stripe-live-secret-key" class="form-control" />
                   </div>
               </div>
 
               <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-stripe-live-publishable-key"><span>Live Publishable <?php echo $entry_api_key; ?></span></label>
+                  <label class="col-sm-2 control-label" for="input-stripe-live-publishable-key">Live Publishable <?php echo $entry_api_key; ?></label>
                   <div class="col-sm-10">
                   <input type="text" name="stripe_live_publishable_key" value="<?php echo $stripe_live_publishable_key; ?>" placeholder="<?php echo $entry_api_key; ?>" id="input-stripe-live-publishable-key" class="form-control" />
                   </div>
               </div>
 
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-stripe-environment"><?php echo $entry_environment; ?></label>
+                <label class="col-sm-2 control-label" for="input-stripe-environment">
+                  <span data-toggle="tooltip" data-original-title="<?php echo $help_test; ?>">
+                    <?php echo $entry_environment; ?>  
+                  </span>
+                </label>
                 <div class="col-sm-10">
                   <select name="stripe_environment" id="input-stripe-environment" class="form-control">
                     <?php if ($stripe_environment == 'live') { ?>

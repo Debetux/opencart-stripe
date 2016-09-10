@@ -88,7 +88,8 @@
                 },
                 success: function(data) {
                     if (data.error == false) {
-
+                      var $table = $('#stripe_refunds_table').find('tbody');
+                      $table.prepend('<tr><td class="text-left">'+$('#input-refund-amount').val()+'</td><td>now</td><td>you</td></tr>');
                     }
                     if (data.error == true) {
                         alert(data.msg);

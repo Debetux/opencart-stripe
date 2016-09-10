@@ -1,6 +1,4 @@
 <?php
-// Heading
-$_['heading_title']         = 'Pilibaba for Chinese Checkout';
 
 // Tab
 $_['tab_register']          = 'Register';
@@ -10,7 +8,6 @@ $_['tab_settings']          = 'Settings';
 $_['text_extension']        = 'Extensions';
 $_['text_success']          = 'Success: You have modified Pilibaba payment module!';
 $_['text_edit']             = 'Edit Pilibaba';
-$_['text_pilibaba']         = '<a href="http://www.pilibaba.com" target="_blank"><img src="view/image/payment/pilibaba.png" alt="Pilibaba" title="Pilibaba"></a>';
 $_['text_live']             = 'Live';
 $_['text_test']             = 'Test';
 $_['text_payment_info']     = 'Payment Info';
@@ -103,7 +100,7 @@ $_['entry_status']		 = 'Status';
 $_['entry_sort_order']	 = 'Sort Order';
 
 // Help
-$_['help_test']			 = 'Use the live or testing (sandbox) gateway server to process transactions?';
+$_['help_test']          = 'Use the live or testing (sandbox) gateway server to process transactions?';
 $_['help_total']		 = 'The checkout total the order must reach before this payment method becomes active';
 
 // Error
