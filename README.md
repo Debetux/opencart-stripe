@@ -17,6 +17,7 @@ TODO :
 
 ![Checkout](/screenshots/checkout.png?raw=true "Checkout form")
 ![Order details](/screenshots/order-details.png?raw=true "Order details")
+![Settings](/screenshots/settings.png?raw=true "Settings")
 
 ## Installation
 
