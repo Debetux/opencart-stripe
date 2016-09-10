@@ -64,6 +64,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 		$data['entry_logging']         = $this->language->get('entry_logging');
 		$data['entry_sort_order']      = $this->language->get('entry_sort_order');
 		$data['entry_api_key']         = $this->language->get('entry_api_key');
+		$data['entry_card']            = $this->language->get('entry_card');
 
 		$data['help_email_address']    = $this->language->get('help_email_address');
 		$data['help_password']         = $this->language->get('help_password');
@@ -132,6 +133,14 @@ class ControllerExtensionPaymentStripe extends Controller {
 			$data['stripe_live_secret_key'] = $this->config->get('stripe_live_secret_key');
 		} else {
 			$data['stripe_live_secret_key'] = '';
+		}
+
+		if (isset($this->request->post['stripe_store_cards'])) {
+			$data['stripe_store_cards'] = $this->request->post['stripe_store_cards'];
+		} elseif ($this->config->has('stripe_store_cards')) {
+			$data['stripe_store_cards'] = $this->config->get('stripe_store_cards');
+		} else {
+			$data['stripe_store_cards'] = 0;
 		}
 
 		if (isset($this->request->post['stripe_status'])) {

@@ -6,12 +6,12 @@ Features :
 - Enter your cards details directly from your website, PCI compliant
 - Refunds directly from order details page + refunds history
 - Support live & test mode
+- Saving Credits Cards for later use if user is logged
 
 TODO :
 - Integrate Stripe subscriptions
-- Saving Credits Cards for later user
 - Advanced settings
-- Clean all files
+- Clean language & controller files
 
 ## Screenshots
 

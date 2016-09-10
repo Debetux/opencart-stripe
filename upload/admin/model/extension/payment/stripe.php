@@ -9,14 +9,22 @@ class ModelExtensionPaymentStripe extends Model {
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci");
 		$this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "stripe_card` (
-			  `card_id` INT(11) NOT NULL AUTO_INCREMENT,
+			  `stripe_card_id` varchar(255) NOT NULL,
 			  `customer_id` INT(11) NOT NULL,
-			  `token` VARCHAR(255) NOT NULL,
-			  `digits` VARCHAR(4) NOT NULL,
-			  `expiry` VARCHAR(5) NOT NULL,
-			  `type` VARCHAR(50) NOT NULL,
+			  `last_four` VARCHAR(4) NOT NULL,
+			  `exp_year` VARCHAR(5) NOT NULL,
+			  `exp_month` VARCHAR(5) NOT NULL,
+			  `brand` VARCHAR(50) NOT NULL,
 			  `environment` varchar(5) NOT NULL DEFAULT 'test',
-			  PRIMARY KEY (`card_id`)
+			  PRIMARY KEY (`stripe_card_id`)
+			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
+
+		$this->db->query("
+			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "stripe_customer` (
+			  `customer_id` INT(11) NOT NULL,
+			  `stripe_customer_id` varchar(255) NOT NULL,
+			  `environment` varchar(5) NOT NULL DEFAULT 'test',
+			  PRIMARY KEY (`stripe_customer_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 	}
 
