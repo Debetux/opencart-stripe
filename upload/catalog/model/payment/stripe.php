@@ -1,7 +1,7 @@
 <?php
-class ModelExtensionPaymentStripe extends Model {
+class ModelPaymentStripe extends Model {
 	public function getMethod($address, $total) {
-		$this->load->language('extension/payment/stripe');
+		$this->load->language('payment/stripe');
 
 		$status = true;
 

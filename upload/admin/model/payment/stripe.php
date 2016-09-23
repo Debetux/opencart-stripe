@@ -1,5 +1,5 @@
 <?php
-class ModelExtensionPaymentStripe extends Model {
+class ModelPaymentStripe extends Model {
 	public function install() {
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "stripe_order` (
 			`stripe_order_id` varchar(255) NOT NULL,

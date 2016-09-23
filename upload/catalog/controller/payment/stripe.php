@@ -1,8 +1,8 @@
 <?php
-class ControllerExtensionPaymentStripe extends Controller {
+class ControllerPaymentStripe extends Controller {
 	public function index() {
-		$this->load->language('extension/payment/stripe');
-		$this->load->model('extension/payment/stripe');
+		$this->load->language('payment/stripe');
+		$this->load->model('payment/stripe');
 
 		if($this->config->get('stripe_environment') == 'live') {
 			$data['publishable_key'] = $this->config->get('stripe_live_publishable_key');
@@ -31,10 +31,10 @@ class ControllerExtensionPaymentStripe extends Controller {
 		$data['cards'] = [];
 
 		if($this->customer->isLogged() && $this->config->get('stripe_store_cards')) {
-			$data['cards'] = $this->model_extension_payment_stripe->getCards($this->customer->getId());
+			$data['cards'] = $this->model_payment_stripe->getCards($this->customer->getId());
 		}
 
-		return $this->load->view('extension/payment/stripe', $data);
+		return $this->load->view('payment/stripe', $data);
 	}
 
 	public function send() {
@@ -43,7 +43,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 		$this->load->library('stripe');
 		$this->load->model('checkout/order');
 		$this->load->model('account/customer');
-		$this->load->model('extension/payment/stripe');
+		$this->load->model('payment/stripe');
 
 		$stripe_environment = $this->config->get('stripe_environment');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
@@ -62,7 +62,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 			);
 
 			# If customer is logged, but isn't registered as a customer in Stripe
-			if($this->customer->isLogged() && !$this->model_extension_payment_stripe->getCustomer($this->customer->getId())) {
+			if($this->customer->isLogged() && !$this->model_payment_stripe->getCustomer($this->customer->getId())) {
 				$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
 				$stripe_customer = \Stripe\Customer::create(array(
@@ -72,7 +72,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 					)
 				));
 
-				$this->model_extension_payment_stripe->addCustomer(
+				$this->model_payment_stripe->addCustomer(
 					$stripe_customer,
 					$this->customer->getId(),
 					$stripe_environment
@@ -81,7 +81,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 			}
 
 			# If customer exists we use it
-			$stripe_customer = $this->model_extension_payment_stripe->getCustomer($this->customer->getId());
+			$stripe_customer = $this->model_payment_stripe->getCustomer($this->customer->getId());
 
 
 			# May be the customer want to save its credit card
@@ -93,7 +93,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 				$stripe_charge_parameters['source'] = $stripe_card['id'];
 
 				if(!!json_decode($this->request->post['saveCreditCard'])) {
-					$this->model_extension_payment_stripe->addCard(
+					$this->model_payment_stripe->addCard(
 						$stripe_card,
 						$this->customer->getId(),
 						$stripe_environment
@@ -114,7 +114,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 			}
 
 			if(isset($charge['id'])) {
-				$this->model_extension_payment_stripe->addOrder($order_info, $charge['id'], $stripe_environment);
+				$this->model_payment_stripe->addOrder($order_info, $charge['id'], $stripe_environment);
 				$message = 'Charge ID: '.$charge['id'].' Status:'. $charge['status'];
 				$this->model_checkout_order->addOrderHistory($this->session->data['order_id'], $this->config->get('stripe_order_status_id'), $message, false);
 				$json['processed'] = true;

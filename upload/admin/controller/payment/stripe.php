@@ -1,12 +1,12 @@
 <?php
-class ControllerExtensionPaymentStripe extends Controller {
+class ControllerPaymentStripe extends Controller {
 	private $error = array();
 
 	public function index() {
 		$this->load->model('setting/setting');
 
-		$this->load->model('extension/payment/stripe');
-		$this->load->language('extension/payment/stripe');
+		$this->load->model('payment/stripe');
+		$this->load->language('payment/stripe');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -36,7 +36,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/payment/stripe', 'token=' . $this->session->data['token'], true)
+			'href' => $this->url->link('payment/stripe', 'token=' . $this->session->data['token'], true)
 		);
 
 		$data['heading_title']         = $this->language->get('heading_title');
@@ -82,7 +82,7 @@ class ControllerExtensionPaymentStripe extends Controller {
 			$data['currencies'] = \Stripe\CountrySpec::retrieve("US")['supported_payment_currencies'];
 		}
 
-		$data['action'] = $this->url->link('extension/payment/stripe', 'token=' . $this->session->data['token'], true);
+		$data['action'] = $this->url->link('payment/stripe', 'token=' . $this->session->data['token'], true);
 
 		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true);
 
@@ -176,12 +176,12 @@ class ControllerExtensionPaymentStripe extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/payment/stripe', $data));
+		$this->response->setOutput($this->load->view('payment/stripe', $data));
 	}
 
 	public function install() {
 		if ($this->user->hasPermission('modify', 'extension/extension')) {
-			$this->load->model('extension/payment/stripe');
+			$this->load->model('payment/stripe');
 
 			$this->model_extension_payment_stripe->install();
 		}
@@ -189,21 +189,21 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 	public function uninstall() {
 		if ($this->user->hasPermission('modify', 'extension/extension')) {
-			$this->load->model('extension/payment/stripe');
+			$this->load->model('payment/stripe');
 
 			$this->model_extension_payment_stripe->uninstall();
 		}
 	}
 
 	public function refund() {
-		$this->load->language('extension/payment/stripe');
+		$this->load->language('payment/stripe');
 		$this->initStripe();
 
 		$json = array();
 		$json['error'] = false;
 
 		if (isset($this->request->post['order_id']) && $this->request->post['order_id'] != '') {
-			$this->load->model('extension/payment/stripe');
+			$this->load->model('payment/stripe');
 			$this->load->model('user/user');
 
 			$stripe_order = $this->model_extension_payment_stripe->getOrder($this->request->post['order_id']);
@@ -230,8 +230,8 @@ class ControllerExtensionPaymentStripe extends Controller {
 	public function order() {
 
 		if ($this->config->get('stripe_status')) {
-			$this->load->model('extension/payment/stripe');
-			$this->load->language('extension/payment/stripe');
+			$this->load->model('payment/stripe');
+			$this->load->language('payment/stripe');
 
 			$data['order_id'] = $this->request->get['order_id'];
 
@@ -250,14 +250,14 @@ class ControllerExtensionPaymentStripe extends Controller {
 
 				$data['token'] = $this->request->get['token'];
 
-				return $this->load->view('extension/payment/stripe_order', $data);
+				return $this->load->view('payment/stripe_order', $data);
 			}
 		}
 	}
 
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/payment/stripe')) {
+		if (!$this->user->hasPermission('modify', 'payment/stripe')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
