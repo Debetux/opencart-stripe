@@ -257,9 +257,9 @@ class ControllerPaymentStripe extends Controller {
 
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'payment/stripe')) {
+		// if (!$this->user->hasPermission('modify', 'payment/stripe')) {
 			$this->error['warning'] = $this->language->get('error_permission');
-		}
+		// }
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
@@ -276,7 +276,7 @@ class ControllerPaymentStripe extends Controller {
 			$stripe_secret_key = $this->config->get('stripe_test_secret_key');
 		}
 
-		if($stripe_secret_key != '' && $stripe_secret_key != null) {
+		if($stripe_secret_key != '' && $stripe_secret_key != null && (strlen($stripe_secret_key) > 5)) {
 			\Stripe\Stripe::setApiKey($stripe_secret_key);
 			return true;
 		}
