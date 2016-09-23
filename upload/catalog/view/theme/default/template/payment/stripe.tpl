@@ -91,7 +91,7 @@ $('#button-confirm').bind('click', function() {
 
   if($existing_cards_select.find('option:selected').val() != '0' && $existing_cards_select.find('option:selected').val() != undefined) {
     $.ajax({
-      url: 'index.php?route=extension/payment/stripe/send',
+      url: 'index.php?route=payment/stripe/send',
       type: 'post',
       data: { 
         card: $existing_cards_select.find('option:selected').val(),
@@ -135,7 +135,7 @@ $('#button-confirm').bind('click', function() {
         // Get the token ID:
         var token = response.id;
         $.ajax({
-          url: 'index.php?route=extension/payment/stripe/send',
+          url: 'index.php?route=payment/stripe/send',
           type: 'post',
           data: { 
             card: token,

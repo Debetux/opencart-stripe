@@ -19,7 +19,7 @@ class ControllerPaymentStripe extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true));
+			$this->response->redirect($this->url->link('extension/payment', 'token=' . $this->session->data['token'] . '&type=payment', true));
 		}
 
 		$data['breadcrumbs'] = array();
@@ -31,7 +31,7 @@ class ControllerPaymentStripe extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true)
+			'href' => $this->url->link('extension/payment', 'token=' . $this->session->data['token'] . '&type=payment', true)
 		);
 
 		$data['breadcrumbs'][] = array(
@@ -84,7 +84,7 @@ class ControllerPaymentStripe extends Controller {
 
 		$data['action'] = $this->url->link('payment/stripe', 'token=' . $this->session->data['token'], true);
 
-		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true);
+		$data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'] . '&type=payment', true);
 
 		if (isset($this->request->post['stripe_environment'])) {
 			$data['stripe_environment'] = $this->request->post['stripe_environment'];
@@ -180,18 +180,18 @@ class ControllerPaymentStripe extends Controller {
 	}
 
 	public function install() {
-		if ($this->user->hasPermission('modify', 'extension/extension')) {
+		if ($this->user->hasPermission('modify', 'extension/payment')) {
 			$this->load->model('payment/stripe');
 
-			$this->model_extension_payment_stripe->install();
+			$this->model_payment_stripe->install();
 		}
 	}
 
 	public function uninstall() {
-		if ($this->user->hasPermission('modify', 'extension/extension')) {
+		if ($this->user->hasPermission('modify', 'extension/payment')) {
 			$this->load->model('payment/stripe');
 
-			$this->model_extension_payment_stripe->uninstall();
+			$this->model_payment_stripe->uninstall();
 		}
 	}
 
@@ -206,7 +206,7 @@ class ControllerPaymentStripe extends Controller {
 			$this->load->model('payment/stripe');
 			$this->load->model('user/user');
 
-			$stripe_order = $this->model_extension_payment_stripe->getOrder($this->request->post['order_id']);
+			$stripe_order = $this->model_payment_stripe->getOrder($this->request->post['order_id']);
 			$user_info = $this->model_user_user->getUser($this->user->getId());
 
 			$re = \Stripe\Refund::create(array(
@@ -235,7 +235,7 @@ class ControllerPaymentStripe extends Controller {
 
 			$data['order_id'] = $this->request->get['order_id'];
 
-			$stripe_order = $this->model_extension_payment_stripe->getOrder($this->request->get['order_id']);
+			$stripe_order = $this->model_payment_stripe->getOrder($this->request->get['order_id']);
 
 			if ($stripe_order && $this->initStripe()) {
 				$data['stripe_environment'] = $stripe_order['environment'];
@@ -258,11 +258,16 @@ class ControllerPaymentStripe extends Controller {
 
 	protected function validate() {
 		// if (!$this->user->hasPermission('modify', 'payment/stripe')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+			// $this->error['warning'] = $this->language->get('error_permission');
 		// }
 
-		if ($this->error && !isset($this->error['warning'])) {
-			$this->error['warning'] = $this->language->get('error_warning');
+		// if ($this->error && !isset($this->error['warning'])) {
+		// 	$this->error['warning'] = $this->language->get('error_warning');
+		// }
+
+		// return !$this->error;
+		if (!$this->user->hasPermission('modify', 'payment/stripe')) {
+			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		return !$this->error;
