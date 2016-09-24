@@ -5,9 +5,9 @@ class ControllerPaymentStripe extends Controller {
 		$this->load->model('payment/stripe');
 
 		if($this->config->get('stripe_environment') == 'live') {
-			$data['publishable_key'] = $this->config->get('stripe_live_publishable_key');
+			$data['publishable_key'] = trim($this->config->get('stripe_live_publishable_key'));
 		} else {
-			$data['publishable_key'] = $this->config->get('stripe_test_publishable_key');
+			$data['publishable_key'] = trim($this->config->get('stripe_test_publishable_key'));
 		}
 
 		$data['text_credit_card'] = $this->language->get('text_credit_card');
@@ -136,9 +136,9 @@ class ControllerPaymentStripe extends Controller {
 	private function initStripe() {
 		$this->load->library('stripe');
 		if($this->config->get('stripe_environment') == 'live') {
-			$stripe_secret_key = $this->config->get('stripe_live_secret_key');
+			$stripe_secret_key = trim($this->config->get('stripe_live_secret_key'));
 		} else {
-			$stripe_secret_key = $this->config->get('stripe_test_secret_key');
+			$stripe_secret_key = trim($this->config->get('stripe_test_secret_key'));
 		}
 
 		if($stripe_secret_key != '' && $stripe_secret_key != null) {

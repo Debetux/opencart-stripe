@@ -276,9 +276,9 @@ class ControllerPaymentStripe extends Controller {
 	private function initStripe() {
 		$this->load->library('stripe');
 		if($this->config->get('stripe_environment') == 'live') {
-			$stripe_secret_key = $this->config->get('stripe_live_secret_key');
+			$stripe_secret_key = trim($this->config->get('stripe_live_secret_key'));
 		} else {
-			$stripe_secret_key = $this->config->get('stripe_test_secret_key');
+			$stripe_secret_key = trim($this->config->get('stripe_test_secret_key'));
 		}
 
 		if($stripe_secret_key != '' && $stripe_secret_key != null && (strlen($stripe_secret_key) > 5)) {
