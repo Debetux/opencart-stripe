@@ -65,18 +65,20 @@ class ControllerExtensionPaymentStripe extends Controller {
 			if($this->customer->isLogged() && !$this->model_extension_payment_stripe->getCustomer($this->customer->getId())) {
 				$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
-				$stripe_customer = \Stripe\Customer::create(array(
-					'email' => $customer_info['email'],
-					'metadata' => array(
-						'customerId' => $this->customer->getId()
-					)
-				));
+				if(isset($customer_info['email']) && ! empty($customer_info['email'])) {
+					$stripe_customer = \Stripe\Customer::create(array(
+						'email' => $customer_info['email'],
+						'metadata' => array(
+							'customerId' => $this->customer->getId()
+						)
+					));
 
-				$this->model_extension_payment_stripe->addCustomer(
-					$stripe_customer,
-					$this->customer->getId(),
-					$stripe_environment
-				);
+					$this->model_extension_payment_stripe->addCustomer(
+						$stripe_customer,
+						$this->customer->getId(),
+						$stripe_environment
+					);
+				}
 
 			}
 

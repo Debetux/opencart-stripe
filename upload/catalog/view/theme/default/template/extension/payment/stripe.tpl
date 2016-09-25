@@ -128,6 +128,7 @@ $('#button-confirm').bind('click', function() {
 
         // Show the errors on the form
         $form.before('<div class="alert alert-error">'+ response.error.message +'</div>');
+        alert('error');
         $button_confirm.prop('disabled', false);
 
       } else { // Token was created!
@@ -146,6 +147,9 @@ $('#button-confirm').bind('click', function() {
           complete: function() {
             $('.alert').remove();
             $button_confirm.prop('disabled', false);
+          },
+          error: function(json) {
+            alert(json);
           },
           success: function(json) {
             if (json['error']) {
